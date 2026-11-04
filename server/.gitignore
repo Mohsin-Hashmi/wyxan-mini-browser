@@ -1,2 +1,18 @@
 # dependencies
 /node_modules
+
+# Local instructions and planning documents at every directory depth
+*.[mM][dD]
+
+# Generated output
+/dist/
+/coverage/
+*.tsbuildinfo
+
+# Configuration and secrets (examples must contain placeholders only)
+.env
+.env.*
+!.env.example
+
+# Local logs
+*.log

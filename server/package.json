@@ -5,9 +5,14 @@
   "license": "ISC",
   "author": "Mohsin",
   "type": "module",
-  "main": "index.js",
+  "main": "dist/app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsx watch src/app.ts",
+    "start": "node dist/app.js",
+    "build": "tsc -p tsconfig.build.json",
+    "lint": "eslint . --max-warnings=0",
+    "lint:fix": "eslint . --fix --max-warnings=0",
+    "seed:people": "tsx scripts/seed-people.ts"
   },
   "dependencies": {
     "cors": "^2.8.6",
@@ -18,10 +23,13 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^26.6.6",
+    "eslint": "^10.14.0",
     "tsx": "^4.23.15",
-    "typescript": "^7.0.2"
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.72.1"
   }
 }

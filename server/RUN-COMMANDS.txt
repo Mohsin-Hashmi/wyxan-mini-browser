@@ -1,0 +1,25 @@
+Run from server/ using your existing .env:
+
+npm install
+npm run dev
+
+GET /health
+GET /api/v1/people
+
+Seed the five selectable people (safe to rerun):
+npm run seed:people
+
+Build:
+npm run build
+
+Lint:
+npm run lint
+npm run lint:fix
+
+Run the compiled backend after building:
+npm start
+
+The build compiles src/ into dist/, with dist/app.js as the entry point.
+Seed scripts run separately through npm run seed:people.
+
+Keep real credentials in .env. See .env.example for configuration keys.
