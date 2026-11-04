@@ -5,9 +5,27 @@ npm run dev
 
 GET /health
 GET /api/v1/people
+POST /api/v1/sites
+GET /api/v1/sites/resolve?address=tidepool.zz
+GET /api/v1/sites/search?q=phosphorescence
+GET /api/v1/sites/search?q=room&limit=5
+
+Publish JSON fields: address, title, html, authorId.
+Use an authorId returned by GET /api/v1/people.
 
 Seed the five selectable people (safe to rerun):
 npm run seed:people
+
+Seed ten linked sample sites after people:
+npm run seed:sites
+
+Seed both people and sites in order (safe to rerun):
+npm run seed
+
+Start browsing the seeded sites at shoreline.zz.
+Trail: shoreline.zz -> greenhouse.zz -> starlight.zz -> teahouse.zz
+Search q is required (1-200 characters); limit defaults to 20 (maximum 50).
+Search returns matching words from titles and body content, with plain-text excerpts.
 
 Build:
 npm run build

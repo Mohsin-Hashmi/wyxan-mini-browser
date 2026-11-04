@@ -3,4 +3,4 @@ import { listPeople } from "../controllers/people.controller.js";
 
 export const peopleRouter = Router();
 
-peopleRouter.get("/", listPeople);
+peopleRouter.get("/people", listPeople);

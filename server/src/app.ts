@@ -4,6 +4,7 @@ import helmet from "helmet";
 import dotenv from "dotenv";
 import { connectDB } from "./config/db-connection.js";
 import { peopleRouter } from "./routes/people.routes.js";
+import { sitesRouter } from "./routes/sites.routes.js";
 
 dotenv.config();
 
@@ -22,10 +23,13 @@ app.get("/health", (_req, res) => {
   res.status(200).send("OK");
 });
 
-app.use("/api/v1/people", peopleRouter);
+app.use("/api/v1", peopleRouter);
+app.use("/api/v1", sitesRouter);
 
 app.use((_req, res) => {
-  res.status(404).json({ success: false, error: { message: "Endpoint not found" } });
+  res
+    .status(404)
+    .json({ success: false, error: { message: "Endpoint not found" } });
 });
 
 connectDB()
