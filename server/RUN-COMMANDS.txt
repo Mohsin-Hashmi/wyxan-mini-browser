@@ -9,6 +9,16 @@ POST /api/v1/sites
 GET /api/v1/sites/resolve?address=tidepool.zz
 GET /api/v1/sites/search?q=phosphorescence
 GET /api/v1/sites/search?q=room&limit=5
+POST /api/v1/people/:personId/visits
+GET /api/v1/people/:personId/visits?limit=20
+GET /api/v1/people/:personId/visits?limit=20&before=:visitId
+
+Record visit JSON fields: address, source, outcome, eventId.
+Sources: address-bar, link, search, back, forward, history.
+Outcomes: found, not-found. Generate a UUID eventId for each arrival;
+reuse the same UUID and details only when retrying that arrival.
+Record after a site or missing-page view has actually been displayed.
+The API sets visitedAt and site metadata; do not send them in the body.
 
 Publish JSON fields: address, title, html, authorId.
 Use an authorId returned by GET /api/v1/people.
@@ -19,7 +29,10 @@ npm run seed:people
 Seed ten linked sample sites after people:
 npm run seed:sites
 
-Seed both people and sites in order (safe to rerun):
+Seed 75 sample visits after people and sites:
+npm run seed:visits
+
+Seed people, sites and visits in order (safe to rerun):
 npm run seed
 
 Start browsing the seeded sites at shoreline.zz.

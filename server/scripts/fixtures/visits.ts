@@ -1,0 +1,111 @@
+import type { VisitSource } from "../../src/schemas/visit.schema.js";
+
+export const visitsStartedAt = new Date("2026-01-01T10:00:00.000Z");
+
+interface VisitTrail {
+  person: string;
+  steps: [address: string, source: VisitSource][];
+}
+
+export const visitTrails: VisitTrail[] = [
+  {
+    person: "Amina",
+    steps: [
+      ["shoreline.zz", "address-bar"],
+      ["greenhouse.zz", "link"],
+      ["starlight.zz", "link"],
+      ["teahouse.zz", "link"],
+      ["papertrail.zz", "link"],
+      ["clockwork.zz", "link"],
+      ["kiln.zz", "link"],
+      ["wayfinder.zz", "link"],
+      ["rainfall.zz", "link"],
+      ["listeningroom.zz", "link"],
+      ["rainfall.zz", "back"],
+      ["listeningroom.zz", "forward"],
+      ["shoreline.zz", "link"],
+      ["sunken-archive.zz", "link"],
+      ["shoreline.zz", "back"],
+    ],
+  },
+  {
+    person: "Bilal",
+    steps: [
+      ["greenhouse.zz", "address-bar"],
+      ["rainfall.zz", "link"],
+      ["listeningroom.zz", "link"],
+      ["papertrail.zz", "link"],
+      ["clockwork.zz", "link"],
+      ["kiln.zz", "link"],
+      ["wayfinder.zz", "link"],
+      ["lost-signal.zz", "link"],
+      ["wayfinder.zz", "back"],
+      ["kiln.zz", "back"],
+      ["wayfinder.zz", "forward"],
+      ["rainfall.zz", "link"],
+      ["greenhouse.zz", "link"],
+      ["shoreline.zz", "search"],
+      ["clockwork.zz", "history"],
+    ],
+  },
+  {
+    person: "Farah",
+    steps: [
+      ["teahouse.zz", "address-bar"],
+      ["kiln.zz", "link"],
+      ["wayfinder.zz", "link"],
+      ["rainfall.zz", "link"],
+      ["greenhouse.zz", "link"],
+      ["starlight.zz", "link"],
+      ["teahouse.zz", "link"],
+      ["papertrail.zz", "link"],
+      ["clockwork.zz", "link"],
+      ["starlight.zz", "link"],
+      ["clockwork.zz", "back"],
+      ["papertrail.zz", "back"],
+      ["clockwork.zz", "forward"],
+      ["kiln.zz", "history"],
+      ["teahouse.zz", "search"],
+    ],
+  },
+  {
+    person: "Omar",
+    steps: [
+      ["clockwork.zz", "address-bar"],
+      ["kiln.zz", "link"],
+      ["teahouse.zz", "link"],
+      ["papertrail.zz", "link"],
+      ["wayfinder.zz", "link"],
+      ["lost-signal.zz", "link"],
+      ["wayfinder.zz", "back"],
+      ["papertrail.zz", "back"],
+      ["wayfinder.zz", "forward"],
+      ["rainfall.zz", "link"],
+      ["listeningroom.zz", "link"],
+      ["shoreline.zz", "link"],
+      ["sunken-archive.zz", "link"],
+      ["shoreline.zz", "back"],
+      ["greenhouse.zz", "link"],
+    ],
+  },
+  {
+    person: "Zara",
+    steps: [
+      ["papertrail.zz", "address-bar"],
+      ["wayfinder.zz", "link"],
+      ["lost-signal.zz", "link"],
+      ["wayfinder.zz", "back"],
+      ["rainfall.zz", "link"],
+      ["listeningroom.zz", "link"],
+      ["papertrail.zz", "link"],
+      ["clockwork.zz", "link"],
+      ["kiln.zz", "link"],
+      ["wayfinder.zz", "link"],
+      ["rainfall.zz", "link"],
+      ["greenhouse.zz", "link"],
+      ["starlight.zz", "link"],
+      ["teahouse.zz", "link"],
+      ["papertrail.zz", "link"],
+    ],
+  },
+];

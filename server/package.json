@@ -14,7 +14,8 @@
     "lint:fix": "eslint . --fix --max-warnings=0",
     "seed:people": "tsx scripts/seed-people.ts",
     "seed:sites": "tsx scripts/seed-sites.ts",
-    "seed": "npm run seed:people && npm run seed:sites"
+    "seed:visits": "tsx scripts/seed-visits.ts",
+    "seed": "npm run seed:people && npm run seed:sites && npm run seed:visits"
   },
   "dependencies": {
     "cors": "^2.8.6",

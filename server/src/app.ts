@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import { connectDB } from "./config/db-connection.js";
 import { peopleRouter } from "./routes/people.routes.js";
 import { sitesRouter } from "./routes/sites.routes.js";
+import { visitsRouter } from "./routes/visits.routes.js";
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.get("/health", (_req, res) => {
 
 app.use("/api/v1", peopleRouter);
 app.use("/api/v1", sitesRouter);
+app.use("/api/v1", visitsRouter);
 
 app.use((_req, res) => {
   res
