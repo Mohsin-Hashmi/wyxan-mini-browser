@@ -1,5 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# Local instructions and planning documents at every directory depth
+*.[mM][dD]
+
 # dependencies
 /node_modules
 /.pnp
@@ -19,6 +22,7 @@
 
 # production
 /build
+/dist/
 
 # misc
 .DS_Store
@@ -32,6 +36,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel
