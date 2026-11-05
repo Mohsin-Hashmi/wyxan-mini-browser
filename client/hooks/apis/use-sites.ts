@@ -1,13 +1,40 @@
 "use client";
 
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { AXIOS } from "@/lib/axios";
 import type { ApiResponse } from "@/types/api.types";
 import type {
   PublishSiteInput,
   Site,
+  SiteListResponse,
   SiteSearchResult,
 } from "@/types/sites.types";
+
+/*
+ * Fetch indexed website summaries and load additional pages on demand.
+ */
+export function useSites(limit = 4) {
+  return useInfiniteQuery({
+    queryKey: ["sites", "list", limit],
+    queryFn: async ({ pageParam, signal }) => {
+      const params = new URLSearchParams({ limit: String(limit) });
+      if (pageParam) params.set("before", pageParam);
+
+      const response = await AXIOS.get<SiteListResponse>("/sites", {
+        params,
+        signal,
+      });
+      return response.data;
+    },
+    initialPageParam: "",
+    getNextPageParam: (lastPage) => lastPage.meta.nextCursor || undefined,
+  });
+}
 
 /*
  * Resolve a normalized address only when an address has been supplied.
@@ -18,13 +45,10 @@ export function useSite(address: string) {
   return useQuery({
     queryKey: ["sites", "resolve", normalizedAddress],
     queryFn: async ({ signal }) => {
-      const response = await AXIOS.get<ApiResponse<Site>>(
-        "/sites/resolve",
-        {
-          params: new URLSearchParams({ address: normalizedAddress }),
-          signal,
-        },
-      );
+      const response = await AXIOS.get<ApiResponse<Site>>("/sites/resolve", {
+        params: new URLSearchParams({ address: normalizedAddress }),
+        signal,
+      });
       return response.data.data;
     },
     enabled: normalizedAddress.length > 0,
@@ -67,6 +91,7 @@ export function usePublishSite() {
     onSuccess: async (site) => {
       queryClient.setQueryData(["sites", "resolve", site.address], site);
       await queryClient.invalidateQueries({ queryKey: ["sites", "search"] });
+      await queryClient.invalidateQueries({ queryKey: ["sites", "list"] });
     },
   });
 }

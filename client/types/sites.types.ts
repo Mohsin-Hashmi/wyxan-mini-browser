@@ -1,3 +1,5 @@
+import type { ApiResponse } from "@/types/api.types";
+
 export interface Site {
   id: string;
   address: string;
@@ -12,6 +14,15 @@ export interface SiteSearchResult {
   address: string;
   title: string;
   excerpt: string;
+}
+
+export interface SiteListItem extends SiteSearchResult {
+  authorId: string;
+  createdAt: string;
+}
+
+export interface SiteListResponse extends ApiResponse<SiteListItem[]> {
+  meta: { nextCursor: string | null };
 }
 
 export interface PublishSiteInput {
