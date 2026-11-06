@@ -1,11 +1,18 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import type { WebsiteListSkeletonProps } from "@/types/common.types";
 
-export function WebsiteListSkeleton() {
+export function WebsiteListSkeleton({
+  columns = 2,
+  label = "Loading indexed websites",
+}: WebsiteListSkeletonProps) {
   return (
-    <div role="status" aria-label="Loading indexed websites">
-      <span className="sr-only">Loading indexed websites…</span>
-      <div aria-hidden="true" className="grid gap-4 lg:grid-cols-2">
+    <div role="status" aria-label={label}>
+      <span className="sr-only">{label}…</span>
+      <div
+        aria-hidden="true"
+        className={`grid gap-4 ${columns === 2 ? "lg:grid-cols-2" : ""}`}
+      >
         {Array.from({ length: 4 }, (_, index) => (
           <Card
             key={index}

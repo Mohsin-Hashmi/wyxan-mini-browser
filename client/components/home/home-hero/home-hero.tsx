@@ -1,4 +1,4 @@
-import {
+﻿import {
   CloudUpload,
   Layers,
   SquareArrowOutUpRight,
@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardTitle, CardDescription } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
-import { HomeIllustration } from "./home-illustration";
+import { BrowserIllustration } from "@/components/common/browser-illustration";
 
 const highlights = [
   { title: "Browse freely", icon: Zap },
@@ -74,7 +74,7 @@ export function HomeHero() {
           </Button>
         </div>
       </div>
-      <HomeIllustration />
+      <BrowserIllustration />
     </Card>
   );
 }

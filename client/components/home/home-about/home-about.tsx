@@ -1,4 +1,4 @@
-import { Check, Info } from "lucide-react";
+﻿import { Check, Info } from "lucide-react";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { Item, ItemGroup, ItemMedia } from "@/components/ui/item";
 import { Separator } from "@/components/ui/separator";

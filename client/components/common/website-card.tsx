@@ -9,20 +9,21 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import type { SiteListItem } from "@/types/sites.types";
+import type { WebsiteCardProps } from "@/types/sites.types";
 
-interface WebsiteCardProps {
-  site: SiteListItem;
-  authorName: string;
-}
-
-export function WebsiteCard({ site, authorName }: WebsiteCardProps) {
-  const publishedDate = new Date(site.createdAt).toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    timeZone: "UTC",
-  });
+export function WebsiteCard({
+  site,
+  authorName,
+  publishedAt,
+}: WebsiteCardProps) {
+  const publishedDate = publishedAt
+    ? new Date(publishedAt).toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+        timeZone: "UTC",
+      })
+    : null;
 
   return (
     <Card className="rounded-xl border border-border/70 bg-transparent py-0 shadow-none ring-0">
@@ -62,17 +63,31 @@ export function WebsiteCard({ site, authorName }: WebsiteCardProps) {
           <CardDescription className="mt-2 line-clamp-3 text-sm leading-5 wrap-break-word text-muted-foreground">
             {site.excerpt}
           </CardDescription>
-          <CardFooter className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 border-0 bg-transparent p-0 text-[11px] text-muted-foreground lg:text-xs">
-            <span className="flex items-center gap-2">
-              <CalendarDays aria-hidden="true" className="size-3.5 shrink-0" />
-              Published <time dateTime={site.createdAt}>{publishedDate}</time>
-            </span>
-            <Separator orientation="vertical" className="h-4" />
-            <span className="flex items-center gap-2">
-              <UserRound aria-hidden="true" className="size-3.5 shrink-0" />
-              {authorName}
-            </span>
-          </CardFooter>
+          {(publishedDate || authorName) && (
+            <CardFooter className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 border-0 bg-transparent p-0 text-[11px] text-muted-foreground lg:text-xs">
+              {publishedDate && (
+                <>
+                  <span className="flex items-center gap-2">
+                    <CalendarDays
+                      aria-hidden="true"
+                      className="size-3.5 shrink-0"
+                    />
+                    Published{" "}
+                    <time dateTime={publishedAt}>{publishedDate}</time>
+                  </span>
+                </>
+              )}
+              {publishedDate && authorName && (
+                <Separator orientation="vertical" className="h-4" />
+              )}
+              {authorName && (
+                <span className="flex items-center gap-2">
+                  <UserRound aria-hidden="true" className="size-3.5 shrink-0" />
+                  {authorName}
+                </span>
+              )}
+            </CardFooter>
+          )}
         </div>
       </CardContent>
     </Card>

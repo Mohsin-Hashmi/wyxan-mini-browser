@@ -1,12 +1,12 @@
-"use client";
+﻿"use client";
 
 import { ArrowRight, CircleAlert, Globe2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSites } from "@/hooks/apis/use-sites";
 import { usePeople } from "@/hooks/apis/use-people";
 import { getApiErrorMessage } from "@/lib/api-error";
-import { WebsiteCard } from "./website-card";
-import { WebsiteListSkeleton } from "./website-list-skeleton";
+import { WebsiteCard } from "@/components/common/website-card";
+import { WebsiteListSkeleton } from "@/components/common/website-list-skeleton";
 import { CardTitle, CardDescription } from "@/components/ui/card";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import {
@@ -102,6 +102,7 @@ export function FeaturedSites() {
             <WebsiteCard
               key={site.id}
               site={site}
+              publishedAt={site.createdAt}
               authorName={
                 people.data?.find((person) => person.id === site.authorId)
                   ?.name ||

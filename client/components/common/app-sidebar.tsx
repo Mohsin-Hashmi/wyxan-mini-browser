@@ -6,6 +6,7 @@ import {
   SquareArrowOutUpRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import type { AppSidebarProps } from "@/types/common.types";
 import Link from "next/link";
 import {
   NavigationMenu,
@@ -15,13 +16,12 @@ import {
 } from "@/components/ui/navigation-menu";
 
 const navigation = [
-  { label: "Search", icon: Search },
   { label: "Browse", icon: SquareArrowOutUpRight },
   { label: "History", icon: History },
   { label: "Bookmarks", icon: Bookmark },
 ];
 
-export function AppSidebar() {
+export function AppSidebar({ activePage = "home" }: AppSidebarProps) {
   return (
     <NavigationMenu
       aria-label="Main navigation"
@@ -31,13 +31,25 @@ export function AppSidebar() {
         <NavigationMenuItem>
           <NavigationMenuLink
             render={<Link href="/home" />}
-            active
+            active={activePage === "home"}
             aria-label="Home"
-            aria-current="page"
+            aria-current={activePage === "home" ? "page" : undefined}
             title="Home"
-            className="size-11 justify-center rounded-lg bg-accent text-primary data-active:bg-accent"
+            className={`size-11 justify-center rounded-lg ${activePage === "home" ? "bg-accent text-primary data-active:bg-accent" : "text-foreground/85"}`}
           >
             <House aria-hidden="true" className="size-5.5" />
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuLink
+            render={<Link href="/search" />}
+            active={activePage === "search"}
+            aria-label="Search"
+            aria-current={activePage === "search" ? "page" : undefined}
+            title="Search"
+            className={`size-11 justify-center rounded-lg ${activePage === "search" ? "bg-accent text-primary data-active:bg-accent" : "text-foreground/85"}`}
+          >
+            <Search aria-hidden="true" className="size-5" />
           </NavigationMenuLink>
         </NavigationMenuItem>
         {navigation.map(({ label, icon: Icon }) => (

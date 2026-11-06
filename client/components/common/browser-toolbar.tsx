@@ -8,17 +8,20 @@ import {
   Star,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Suspense } from "react";
 import Link from "next/link";
 import {
   InputGroup,
   InputGroupAddon,
-  InputGroupInput,
   InputGroupButton,
 } from "@/components/ui/input-group";
 import { Label } from "@/components/ui/label";
 import { PersonSelector } from "./person-selector";
+import { BrowserAddress } from "./browser-address";
+import { Skeleton } from "@/components/ui/skeleton";
+import type { BrowserToolbarProps } from "@/types/common.types";
 
-export function BrowserToolbar() {
+export function BrowserToolbar({ pageHref = "/home" }: BrowserToolbarProps) {
   return (
     <div className="border-b border-border/65 bg-surface px-4 py-3 lg:px-6">
       <div className="flex flex-wrap items-center gap-2.5">
@@ -42,26 +45,26 @@ export function BrowserToolbar() {
             <ArrowRight aria-hidden="true" className="size-5" />
           </Button>
           <Button
-            render={<Link href="/home" />}
+            render={<Link href={pageHref} />}
             nativeButton={false}
             variant="ghost"
             size="icon"
-            aria-label="Reload home"
+            aria-label="Return to current page"
           >
             <RotateCw aria-hidden="true" className="size-5" />
           </Button>
         </div>
         <div className="relative order-first min-w-0 basis-full sm:order-0 sm:flex-1 sm:basis-auto">
-          <Label htmlFor="browser-address" className="sr-only">
+          <Label
+            htmlFor={`${pageHref.slice(1)}-browser-address`}
+            className="sr-only"
+          >
             Browser address
           </Label>
           <InputGroup className="h-10.5 bg-transparent shadow-xs has-disabled:bg-transparent has-disabled:opacity-100">
-            <InputGroupInput
-              id="browser-address"
-              readOnly
-              value="https://wyxan.ai/browser/home"
-              className="h-10.5 text-sm"
-            />
+            <Suspense fallback={<Skeleton className="h-8 min-w-0 flex-1" />}>
+              <BrowserAddress pageHref={pageHref} />
+            </Suspense>
             <InputGroupAddon className="pl-3.5">
               <LockKeyhole aria-hidden="true" className="size-4.5" />
             </InputGroupAddon>
@@ -79,8 +82,10 @@ export function BrowserToolbar() {
           </InputGroup>
         </div>
         <Button
-          disabled
+          render={<Link href="/search" />}
+          nativeButton={false}
           variant="outline"
+          aria-label="Search"
           className="h-10.5 rounded-lg bg-transparent px-3.5 shadow-xs disabled:opacity-100"
         >
           <Search aria-hidden="true" className="size-4.5" />

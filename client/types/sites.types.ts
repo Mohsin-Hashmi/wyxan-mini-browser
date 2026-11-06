@@ -16,6 +16,12 @@ export interface SiteSearchResult {
   excerpt: string;
 }
 
+export interface WebsiteCardProps {
+  site: SiteSearchResult;
+  authorName?: string;
+  publishedAt?: string;
+}
+
 export interface SiteListItem extends SiteSearchResult {
   authorId: string;
   createdAt: string;
