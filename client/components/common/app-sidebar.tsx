@@ -1,11 +1,6 @@
-import {
-  Bookmark,
-  History,
-  House,
-  Search,
-  SquareArrowOutUpRight,
-} from "lucide-react";
+import { Bookmark, House, Search, SquareArrowOutUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { HistoryDrawer } from "@/components/history";
 import type { AppSidebarProps } from "@/types/common.types";
 import Link from "next/link";
 import {
@@ -15,11 +10,7 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 
-const navigation = [
-  { label: "Browse", icon: SquareArrowOutUpRight },
-  { label: "History", icon: History },
-  { label: "Bookmarks", icon: Bookmark },
-];
+const navigation = [{ label: "Bookmarks", icon: Bookmark }];
 
 export function AppSidebar({ activePage = "home" }: AppSidebarProps) {
   return (
@@ -51,6 +42,21 @@ export function AppSidebar({ activePage = "home" }: AppSidebarProps) {
           >
             <Search aria-hidden="true" className="size-5" />
           </NavigationMenuLink>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuLink
+            render={<Link href="/publish" />}
+            active={activePage === "publish"}
+            aria-label="Publish website"
+            aria-current={activePage === "publish" ? "page" : undefined}
+            title="Publish website"
+            className={`size-11 justify-center rounded-lg ${activePage === "publish" ? "bg-accent text-primary data-active:bg-accent" : "text-foreground/85"}`}
+          >
+            <SquareArrowOutUpRight aria-hidden="true" className="size-5" />
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <HistoryDrawer />
         </NavigationMenuItem>
         {navigation.map(({ label, icon: Icon }) => (
           <NavigationMenuItem key={label}>

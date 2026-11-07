@@ -7,7 +7,7 @@ import { SkipLink } from "./skip-link";
 
 export function AppShell({ children, pageHref = "/home" }: AppShellProps) {
   const mainId =
-    pageHref === "/search" ? "search-main-content" : "main-content";
+    pageHref === "/home" ? "main-content" : `${pageHref.slice(1)}-main-content`;
 
   return (
     <div className="flex min-h-screen flex-col bg-surface">
@@ -15,7 +15,13 @@ export function AppShell({ children, pageHref = "/home" }: AppShellProps) {
       <AppHeader />
       <div className="flex flex-1 flex-col md:flex-row">
         <AppSidebar
-          activePage={pageHref.startsWith("/search") ? "search" : "home"}
+          activePage={
+            pageHref === "/publish"
+              ? "publish"
+              : pageHref === "/search"
+                ? "search"
+                : "home"
+          }
         />
         <div className="flex min-w-0 flex-1 flex-col">
           <BrowserToolbar pageHref={pageHref} />

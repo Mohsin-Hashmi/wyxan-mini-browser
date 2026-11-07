@@ -11,16 +11,19 @@ import type {
   RecordVisitVariables,
   Visit,
   VisitHistoryResponse,
+  ClearVisitHistoryResult,
 } from "@/types/visits.types";
 
 /*
  * Load older history pages while keeping each person's cache separate.
  */
-export function useVisitHistory(personId: string, limit = 20) {
+export function useVisitHistory(personId: string, limit = 20, query = "") {
+  const q = query.trim();
   return useInfiniteQuery({
-    queryKey: ["visits", personId, limit],
+    queryKey: ["visits", personId, limit, q],
     queryFn: async ({ pageParam, signal }) => {
       const params = new URLSearchParams({ limit: String(limit) });
+      if (q) params.set("q", q);
 
       if (pageParam) {
         params.set("before", pageParam);
@@ -38,6 +41,25 @@ export function useVisitHistory(personId: string, limit = 20) {
     initialPageParam: "",
     getNextPageParam: (lastPage) => lastPage.meta.nextCursor || undefined,
     enabled: personId.length > 0,
+  });
+}
+
+/*
+ * Clear the captured person's history and reset their paginated query caches.
+ * Reset cursors before refetching because their visits no longer exist.
+ */
+export function useClearVisitHistory() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (personId: string) => {
+      const response = await AXIOS.delete<ApiResponse<ClearVisitHistoryResult>>(
+        `/people/${personId}/visits`,
+      );
+      return response.data.data;
+    },
+    onSuccess: async (_result, personId) => {
+      await queryClient.resetQueries({ queryKey: ["visits", personId] });
+    },
   });
 }
 

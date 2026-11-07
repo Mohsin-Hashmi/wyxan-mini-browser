@@ -93,7 +93,9 @@ export function BrowserToolbar({ pageHref = "/home" }: BrowserToolbarProps) {
         </Button>
         <PersonSelector />
         <Button
-          disabled
+          render={<Link href="/publish" />}
+          nativeButton={false}
+          aria-current={pageHref === "/publish" ? "page" : undefined}
           className="h-10.5 flex-1 rounded-lg px-4 shadow-sm disabled:opacity-100 sm:flex-none"
         >
           <CloudUpload aria-hidden="true" className="size-5" />

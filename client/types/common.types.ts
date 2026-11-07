@@ -6,7 +6,7 @@ export interface AppShellProps {
 }
 
 export interface AppSidebarProps {
-  activePage?: "home" | "search";
+  activePage?: "home" | "search" | "publish";
 }
 
 export interface BrowserAddressProps {
@@ -19,6 +19,7 @@ export interface BrowserToolbarProps {
 
 export interface BrowserIllustrationProps {
   compact?: boolean;
+  variant?: "search" | "publish";
 }
 
 export interface SkipLinkProps {

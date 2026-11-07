@@ -24,3 +24,8 @@ export interface SiteSearchResponse {
   title: string;
   excerpt: string;
 }
+
+export interface SiteListItemResponse extends SiteSearchResponse {
+  authorId: string;
+  createdAt: string;
+}

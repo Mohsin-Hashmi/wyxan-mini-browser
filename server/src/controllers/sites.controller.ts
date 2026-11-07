@@ -2,15 +2,45 @@ import type { Request, Response } from "express";
 import { mongo } from "mongoose";
 import {
   createSiteSchema,
+  listSitesSchema,
   resolveSiteSchema,
   searchSitesSchema,
 } from "../schemas/site.schema.js";
 import {
   createSite,
+  listSites,
   resolveSite,
   searchSites,
 } from "../services/sites.service.js";
 import { formatSiteValidationErrors } from "../utils/sites.utils.js";
+
+/*
+ * Validate site-list pagination and return safe summaries for the home page.
+ * Include the next cursor when more sites remain in the database.
+ */
+export async function getSites(request: Request, response: Response): Promise<void> {
+  try {
+    const input = listSitesSchema.safeParse(request.query);
+    if (!input.success) {
+      response.status(400).json({
+        success: false,
+        message: "Invalid site list query",
+        errors: formatSiteValidationErrors(input.error),
+      });
+      return;
+    }
+
+    const result = await listSites(input.data);
+    response.status(200).json({
+      success: true,
+      message: "Sites fetched successfully",
+      data: result.sites,
+      meta: { nextCursor: result.nextCursor },
+    });
+  } catch {
+    response.status(500).json({ success: false, message: "Failed to fetch sites" });
+  }
+}
 
 /*
  * Validate the publish request, create the site through the service, and return it.

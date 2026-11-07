@@ -62,7 +62,7 @@
   --foreground: #0b1021;
   --card: #ffffff;
   --card-foreground: var(--foreground);
-  --popover: #e5eeff;
+  --popover: var(--card);
   --popover-foreground: var(--foreground);
   --primary: #2563eb;
   --primary-foreground: #ffffff;

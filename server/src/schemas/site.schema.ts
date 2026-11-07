@@ -22,5 +22,11 @@ export const searchSitesSchema = z.object({
   limit: z.coerce.number().int().min(1).max(50).default(20),
 }).strict();
 
+export const listSitesSchema = z.object({
+  limit: z.coerce.number().int().min(1).max(50).default(4),
+  before: z.string().regex(/^[a-fA-F0-9]{24}$/, "Provide a valid site cursor").optional(),
+}).strict();
+
 export type CreateSiteInput = z.infer<typeof createSiteSchema>;
 export type SearchSitesInput = z.infer<typeof searchSitesSchema>;
+export type ListSitesInput = z.infer<typeof listSitesSchema>;

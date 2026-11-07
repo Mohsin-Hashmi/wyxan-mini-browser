@@ -95,8 +95,8 @@ export async function recordVisit(
 }
 
 /*
- * Read a person's visits from newest to oldest using a visit ID as the cursor.
- * Keep equal timestamps ordered by ID and return the next cursor when more rows exist.
+ * Search one person's visits in newest-first timestamp and ID order.
+ * Return a stable cursor and the total number of matching visits.
  */
 export async function getVisitHistory(
   personId: string,
@@ -111,6 +111,15 @@ export async function getVisitHistory(
     .sort({ visitedAt: -1, _id: -1 })
     .limit(input.limit + 1);
 
+  if (input.q) {
+    const search = input.q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    query.and([{ $or: [
+      { title: { $regex: search, $options: "i" } },
+      { address: { $regex: search, $options: "i" } },
+    ] }]);
+  }
+  const total = await VisitModel.countDocuments(query.getFilter());
+
   if (input.before) {
     const cursor = await VisitModel.findOne({
       _id: input.before,
@@ -120,10 +129,10 @@ export async function getVisitHistory(
       throw new Error("History cursor not found");
     }
 
-    query.or([
+    query.and([{ $or: [
       { visitedAt: { $lt: cursor.visitedAt } },
       { visitedAt: cursor.visitedAt, _id: { $lt: cursor._id } },
-    ]);
+    ] }]);
   }
 
   const visits = await query.lean();
@@ -138,5 +147,18 @@ export async function getVisitHistory(
     nextCursor = lastVisit._id.toString();
   }
 
-  return { visits: visits.map(formatVisit), nextCursor };
+  return { visits: visits.map(formatVisit), nextCursor, total };
+}
+
+/*
+ * Remove only the selected person's durable visit records.
+ * Leave people, published sites and everyone else's history unchanged.
+ */
+export async function clearVisitHistory(personId: string): Promise<number> {
+  const person = await PersonModel.exists({ _id: personId });
+  if (!person) {
+    throw new Error("Person not found");
+  }
+  const result = await VisitModel.deleteMany({ personId });
+  return result.deletedCount;
 }

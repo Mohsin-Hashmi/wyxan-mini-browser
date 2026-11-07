@@ -1,10 +1,11 @@
-import { Check, Globe2, Network, Search } from "lucide-react";
+import { Check, CloudUpload, Globe2, Network, Search } from "lucide-react";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import type { BrowserIllustrationProps } from "@/types/common.types";
 
 export function BrowserIllustration({
   compact = false,
+  variant = "search",
 }: BrowserIllustrationProps) {
   return (
     <div
@@ -61,7 +62,11 @@ export function BrowserIllustration({
       </Card>
       {compact ? (
         <Card className="absolute right-1 bottom-3 rounded-full bg-white/95 p-3 shadow-lg shadow-primary/10 ring-0">
-          <Search className="size-7 text-primary" />
+          {variant === "publish" ? (
+            <CloudUpload className="size-7 text-primary" />
+          ) : (
+            <Search className="size-7 text-primary" />
+          )}
         </Card>
       ) : (
         <Card className="absolute right-0 bottom-3 flex-row items-center gap-3 rounded-xl border border-white bg-white/95 px-4 py-3.5 shadow-lg shadow-primary/10 ring-0">

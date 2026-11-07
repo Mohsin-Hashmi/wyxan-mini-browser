@@ -1,6 +1,6 @@
 import type { Types } from "mongoose";
 import type { ZodError } from "zod";
-import type { Site, SiteResponse, SiteSearchResponse } from "../types/site.types.js";
+import type { Site, SiteListItemResponse, SiteResponse, SiteSearchResponse } from "../types/site.types.js";
 
 export function formatSite(site: Site & { _id: Types.ObjectId }): SiteResponse {
   return {
@@ -30,5 +30,15 @@ export function formatSiteSearchResult(
     excerpt: site.searchableText.length > 180
       ? `${site.searchableText.slice(0, 180)}…`
       : site.searchableText,
+  };
+}
+
+export function formatSiteListItem(
+  site: Omit<Site, "html"> & { _id: Types.ObjectId },
+): SiteListItemResponse {
+  return {
+    ...formatSiteSearchResult(site),
+    authorId: site.authorId.toString(),
+    createdAt: site.createdAt.toISOString(),
   };
 }

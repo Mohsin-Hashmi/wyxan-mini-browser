@@ -30,6 +30,7 @@ export interface RecordVisitResult {
 }
 
 export interface VisitHistoryResponse {
+  total: number;
   visits: VisitResponse[];
   nextCursor: string | null;
 }

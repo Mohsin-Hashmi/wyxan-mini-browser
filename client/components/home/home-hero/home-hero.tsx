@@ -65,7 +65,8 @@ export function HomeHero() {
             Start Browsing
           </Button>
           <Button
-            disabled
+            render={<Link href="/publish" />}
+            nativeButton={false}
             variant="outline"
             className="h-11 min-w-52 rounded-lg border-primary/25 bg-transparent px-6 text-base shadow-xs disabled:opacity-100"
           >

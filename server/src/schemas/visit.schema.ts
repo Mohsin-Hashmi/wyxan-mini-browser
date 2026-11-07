@@ -18,6 +18,7 @@ const personParamsSchema = z.object({ personId: objectIdSchema }).strict();
 export const visitHistoryQuerySchema = z.object({
   limit: z.coerce.number().int().min(1).max(100).default(20),
   before: objectIdSchema.optional(),
+  q: z.string().trim().max(200).optional(),
 }).strict();
 
 export const recordVisitRequestSchema = z.object({
@@ -28,6 +29,10 @@ export const recordVisitRequestSchema = z.object({
 export const visitHistoryRequestSchema = z.object({
   params: personParamsSchema,
   query: visitHistoryQuerySchema,
+});
+
+export const clearVisitHistoryRequestSchema = z.object({
+  params: personParamsSchema,
 });
 
 export type VisitSource = z.infer<typeof visitSourceSchema>;

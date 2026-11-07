@@ -1,6 +1,12 @@
 import type { ApiResponse } from "@/types/api.types";
 
-export type VisitSource = "address-bar" | "link" | "search" | "back" | "forward" | "history";
+export type VisitSource =
+  | "address-bar"
+  | "link"
+  | "search"
+  | "back"
+  | "forward"
+  | "history";
 export type VisitOutcome = "found" | "not-found";
 
 export interface RecordVisitInput {
@@ -24,5 +30,9 @@ export interface Visit extends RecordVisitInput {
 }
 
 export interface VisitHistoryResponse extends ApiResponse<Visit[]> {
-  meta: { nextCursor: string | null };
+  meta: { nextCursor: string | null; total: number };
+}
+
+export interface ClearVisitHistoryResult {
+  deletedCount: number;
 }

@@ -2,11 +2,34 @@ import { PersonModel } from "../models/person.model.js";
 import { SiteModel } from "../models/site.model.js";
 import type {
   CreateSiteInput,
+  ListSitesInput,
   SearchSitesInput,
 } from "../schemas/site.schema.js";
 import type { SiteResponse, SiteSearchResponse } from "../types/site.types.js";
-import { formatSite, formatSiteSearchResult } from "../utils/sites.utils.js";
+import { formatSite, formatSiteListItem, formatSiteSearchResult } from "../utils/sites.utils.js";
 import { prepareSiteContent } from "./site-content.service.js";
+
+/*
+ * Fetch a bounded page of site summaries in descending ID order.
+ * Read one extra record to determine whether another page is available.
+ */
+export async function listSites(input: ListSitesInput) {
+  const filter = input.before ? { _id: { $lt: input.before } } : {};
+  const sites = await SiteModel.find(filter)
+    .select("address title searchableText authorId createdAt")
+    .sort({ _id: -1 })
+    .limit(input.limit + 1)
+    .lean();
+
+  const hasMore = sites.length > input.limit;
+  const items = sites.slice(0, input.limit).map(formatSiteListItem);
+  const lastSite = items[items.length - 1];
+
+  return {
+    sites: items,
+    nextCursor: hasMore && lastSite ? lastSite.id : null,
+  };
+}
 
 /*
  * Check that the author exists and the sanitized HTML contains readable text.
